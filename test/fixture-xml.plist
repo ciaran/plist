@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Array</key>
+	<array>
+		<string>A</string>
+		<string>B</string>
+		<string>C</string>
+	</array>
+	<key>Date</key>
+	<date>2015-11-17T14:00:59Z</date>
+	<key>Number</key>
+	<integer>1234</integer>
+	<key>Float</key>
+	<real>1234.1234</real>
+	<key>String</key>
+	<string>foobar</string>
+	<key>True</key>
+	<true/>
+</dict>
+</plist>

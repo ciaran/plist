@@ -5,7 +5,7 @@ defmodule PlistTest do
   test "basic parsing (binary)" do
    path = [File.cwd!, "test", "fixture-binary.plist"] |> Path.join
    { :ok, handle } = File.open(path, [:binary])
-   data = Plist.Binary.parse(handle)
+   data = Plist.parse(handle)
 
    assert Dict.get(data, "String") == "foobar"
    assert Dict.get(data, "Number") == 1234
@@ -14,5 +14,20 @@ defmodule PlistTest do
    assert Dict.get(data, "True") == true
 
    File.close(handle)
+ end
+
+ test "basic parsing (xml)" do
+  path = [File.cwd!, "test", "fixture-xml.plist"] |> Path.join
+  { :ok, handle } = File.open(path, [:binary])
+  data = Plist.parse(handle)
+
+  assert Dict.get(data, "String") == "foobar"
+  assert Dict.get(data, "Number") == 1234
+  assert Dict.get(data, "Float") == 1234.1234
+  assert Dict.get(data, "Array") == ["A", "B", "C"]
+  assert Dict.get(data, "Date") == "2015-11-17T14:00:59Z"
+  assert Dict.get(data, "True") == true
+
+  File.close(handle)
  end
 end
