@@ -18,5 +18,7 @@
 	<string>foobar</string>
 	<key>True</key>
 	<true/>
+	<key>Data</key>
+	<data>SGVsbG8=</data>
 </dict>
 </plist>

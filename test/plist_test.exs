@@ -27,6 +27,7 @@ defmodule PlistTest do
   assert Dict.get(data, "Array") == ["A", "B", "C"]
   assert Dict.get(data, "Date") == "2015-11-17T14:00:59Z"
   assert Dict.get(data, "True") == true
+  assert Dict.get(data, "Data") == "Hello"
 
   File.close(handle)
  end

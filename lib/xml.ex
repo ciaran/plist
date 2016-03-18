@@ -78,6 +78,13 @@ defmodule Plist.XML do
     end)
   end
 
+  defp parse_value(:data, [text]) do
+    {:ok, data} =
+      parse_value(:string, [text])
+      |> Base.decode64(ignore: :whitespace)
+    data
+  end
+
   defp empty?({:xmlText, _, _, [], ' ', :text}), do: true
   defp empty?(_), do: false
 end
