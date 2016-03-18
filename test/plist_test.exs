@@ -30,4 +30,16 @@ defmodule PlistTest do
 
   File.close(handle)
  end
+
+ test "parsing from in-memory data" do
+  path = [File.cwd!, "test", "fixture-xml.plist"] |> Path.join
+  data = File.read!(path)
+
+  {:ok, handle} = File.open(data, [:ram, :binary])
+  data = Plist.parse(handle)
+
+  assert Dict.get(data, "String") == "foobar"
+
+  File.close(handle)
+ end
 end
