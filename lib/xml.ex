@@ -81,7 +81,7 @@ defmodule Plist.XML do
   defp parse_value(:data, [text]) do
     {:ok, data} =
       parse_value(:string, [text])
-      |> Base.decode64
+      |> Base.decode64(ignore: :whitespace)
     data
   end
 
