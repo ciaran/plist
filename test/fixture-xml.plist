@@ -18,5 +18,7 @@
 	<string>foobar</string>
 	<key>True</key>
 	<true/>
+	<key>Base64</key>
+	<data>AAECAwQFBgcICQo=</data>
 </dict>
 </plist>

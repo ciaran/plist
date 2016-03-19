@@ -33,6 +33,13 @@ defmodule Plist.XML do
     parse_value(:string, [text])
   end
 
+  defp parse_value(:data, [text]) do
+    {:ok, data} =
+      parse_value(:string, [text])
+      |> Base.decode64
+    data
+  end
+
   defp parse_value(:true, []), do: true
   defp parse_value(:false, []), do: true
 
