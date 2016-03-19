@@ -4,9 +4,7 @@ defmodule Plist.XML do
   Record.defrecord :xmlElement, Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl")
   Record.defrecord :xmlText,    Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl")
 
-  def parse(handle) do
-    xml = IO.binread(handle, :all)
-
+  def parse(xml) do
     {doc, _} =
       xml
       |> :binary.bin_to_list

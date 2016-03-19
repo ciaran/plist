@@ -12,9 +12,4 @@ Add plist to your list of dependencies in `mix.exs`:
 
 ## Usage
 
-    {:ok, handle} = File.open(path, [:binary])
-    plist = Plist.parse(handle)
-
-    # To parse in-memory data you can do this:
-    {:ok, handle} = File.open(data, [:ram, :binary])
-    plist = Plist.parse(handle)
+    plist = File.read!(path) |> Plist.parse

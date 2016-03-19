@@ -1,6 +1,10 @@
 # http://fileformats.archiveteam.org/wiki/Property_List/Binary
 defmodule Plist.Binary do
-  def parse(handle) do
+  def parse(data) do
+    File.open!(data, [:ram, :binary], &do_parse/1)
+  end
+
+  defp do_parse(handle) do
     << "bplist00" >> = IO.binread(handle, 8)
 
     { offset_size, object_ref_size, number_of_objects, root_object, table_offset } = read_trailer(handle)

@@ -1,10 +1,8 @@
 defmodule Plist do
-  def parse(handle) do
-    header = IO.binread(handle, 8)
-    { :ok, _ } = :file.position(handle, 0)
-    case header do
-      "bplist00" -> Plist.Binary.parse(handle)
-      "<?xml ve" ->  Plist.XML.parse(handle)
+  def parse(data) do
+    case String.slice(data, 0, 8) do
+      "bplist00" -> Plist.Binary.parse(data)
+      "<?xml ve" -> Plist.XML.parse(data)
       _ -> raise "Unknown plist format"
     end
   end
