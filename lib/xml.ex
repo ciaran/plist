@@ -34,7 +34,7 @@ defmodule Plist.XML do
   defp parse_value(:data, nodes) do
     {:ok, data} =
       parse_value(:string, nodes)
-      |> Base.decode64
+      |> Base.decode64(ignore: :whitespace)
     data
   end
 
