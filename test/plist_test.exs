@@ -28,6 +28,7 @@ defmodule PlistTest do
   assert Dict.get(data, "Date") == "2015-11-17T14:00:59Z"
   assert Dict.get(data, "True") == true
   assert Dict.get(data, "Base64") == <<0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10>>
+  assert Dict.get(data, "EntityEncoded") == "Foo & Bar"
 
   File.close(handle)
  end

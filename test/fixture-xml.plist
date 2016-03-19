@@ -20,5 +20,7 @@
 	<true/>
 	<key>Base64</key>
 	<data>AAECAwQFBgcICQo=</data>
+	<key>EntityEncoded</key>
+	<string>Foo &amp; Bar</string>
 </dict>
 </plist>
