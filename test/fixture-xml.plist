@@ -22,5 +22,9 @@
 	<data>AAECAwQFBgcICQo=</data>
 	<key>EntityEncoded</key>
 	<string>Foo &amp; Bar</string>
+	<key>UnicσdeKey</key>
+	<string>foobar</string>
+	<key>UnicodeValue</key>
+	<string>© 2008 – 2016</string>
 </dict>
 </plist>
