@@ -74,7 +74,7 @@ defmodule Plist.XML do
         |> xmlElement(:content)
         |> Enum.at(0)
         |> xmlText(:value)
-        |> :binary.list_to_bin
+        |> :unicode.characters_to_binary
       end)
 
     Enum.zip(keys, values)
@@ -85,7 +85,7 @@ defmodule Plist.XML do
 
   defp do_parse_text_nodes([], result), do: result
   defp do_parse_text_nodes([node | list], result) do
-    text = node |> xmlText(:value) |> :binary.list_to_bin
+    text = node |> xmlText(:value) |> :unicode.characters_to_binary
     do_parse_text_nodes(list, result <> text)
   end
 
