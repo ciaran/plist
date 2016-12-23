@@ -120,8 +120,10 @@ defmodule Plist.Binary do
       length :: big-integer-size(4)
     >> = IO.binread(handle, 1)
 
-    if type != 0x00 and length == 15 do
-      length = read_object(handle, offsets, object_ref_size)
+    length = if type != 0x00 and length == 15 do
+      read_object(handle, offsets, object_ref_size)
+    else
+      length
     end
 
     case type do
