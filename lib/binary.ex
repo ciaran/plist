@@ -1,5 +1,7 @@
 # http://fileformats.archiveteam.org/wiki/Property_List/Binary
 defmodule Plist.Binary do
+  use Bitwise
+
   def parse(data) do
     File.open!(data, [:ram, :binary], &do_parse/1)
   end
@@ -76,7 +78,7 @@ defmodule Plist.Binary do
   end
 
   defp read_date(handle, length) do
-    bytes = round(:math.pow(2, length))
+    bytes = 1 <<< length
     << seconds :: float-size(bytes)-unit(8) >> = IO.binread(handle, bytes)
 
     apple_epoch = :calendar.datetime_to_gregorian_seconds({{2001,1,1}, {0,0,0}})
@@ -86,7 +88,7 @@ defmodule Plist.Binary do
   end
 
   defp read_float(handle, length) do
-    bytes = round(:math.pow(2, length))
+    bytes = 1 <<< length
     << value :: float-size(bytes)-unit(8) >> = IO.binread(handle, bytes)
     value
   end
