@@ -23,6 +23,8 @@ defmodule PlistTest do
     assert Dict.get(plist, "True") == true
     assert Dict.get(plist, "Base64") == <<0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10>>
     assert Dict.get(plist, "EntityEncoded") == "Foo & Bar"
+    assert Dict.get(plist, "UnicσdeKey") == "foobar"
+    assert Dict.get(plist, "UnicodeValue") == "© 2008 – 2016"
   end
 
   defp parse_fixture(filename) do
