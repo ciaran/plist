@@ -1,13 +1,13 @@
 defmodule Plist.XML do
   require Record
 
-  Record.defrecord :xmlElement, Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl")
-  Record.defrecord :xmlText,    Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl")
+  Record.defrecord(:xmlElement, Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl"))
+  Record.defrecord(:xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
 
   def parse(xml) do
     {doc, _} =
       xml
-      |> :binary.bin_to_list
+      |> :binary.bin_to_list()
       |> :xmerl_scan.string([{:comments, false}, {:space, :normalize}])
 
     root =
@@ -35,18 +35,19 @@ defmodule Plist.XML do
     {:ok, data} =
       parse_value(:string, nodes)
       |> Base.decode64(ignore: :whitespace)
+
     data
   end
 
-  defp parse_value(:true, []), do: true
-  defp parse_value(:false, []), do: true
+  defp parse_value(true, []), do: true
+  defp parse_value(false, []), do: true
 
   defp parse_value(:integer, nodes) do
-    parse_value(:string, nodes) |> String.to_integer
+    parse_value(:string, nodes) |> String.to_integer()
   end
 
   defp parse_value(:real, nodes) do
-    {value, ""} = parse_value(:string, nodes) |> Float.parse
+    {value, ""} = parse_value(:string, nodes) |> Float.parse()
     value
   end
 
@@ -64,8 +65,7 @@ defmodule Plist.XML do
         xmlElement(element, :name) == :key
       end)
 
-    unless length(keys) == length(values), do:
-      raise "Key/value pair mismatch"
+    unless length(keys) == length(values), do: raise("Key/value pair mismatch")
 
     keys =
       keys
@@ -74,7 +74,7 @@ defmodule Plist.XML do
         |> xmlElement(:content)
         |> Enum.at(0)
         |> xmlText(:value)
-        |> :unicode.characters_to_binary
+        |> :unicode.characters_to_binary()
       end)
 
     Enum.zip(keys, values)
@@ -84,8 +84,9 @@ defmodule Plist.XML do
   end
 
   defp do_parse_text_nodes([], result), do: result
+
   defp do_parse_text_nodes([node | list], result) do
-    text = node |> xmlText(:value) |> :unicode.characters_to_binary
+    text = node |> xmlText(:value) |> :unicode.characters_to_binary()
     do_parse_text_nodes(list, result <> text)
   end
 

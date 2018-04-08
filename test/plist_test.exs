@@ -30,9 +30,9 @@ defmodule PlistTest do
   end
 
   defp parse_fixture(filename) do
-    [File.cwd!, "test", filename]
-    |> Path.join
-    |> File.read!
-    |> Plist.parse
+    [File.cwd!(), "test", filename]
+    |> Path.join()
+    |> File.read!()
+    |> Plist.parse()
   end
 end

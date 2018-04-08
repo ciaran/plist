@@ -7,37 +7,40 @@ defmodule Plist.Binary do
   end
 
   defp do_parse(handle) do
-    << "bplist00" >> = IO.binread(handle, 8)
+    <<"bplist00">> = IO.binread(handle, 8)
 
-    { offset_size, object_ref_size, number_of_objects, root_object, table_offset } = read_trailer(handle)
+    {offset_size, object_ref_size, number_of_objects, root_object, table_offset} =
+      read_trailer(handle)
 
-    { :ok, _ } = :file.position(handle, table_offset)
+    {:ok, _} = :file.position(handle, table_offset)
     offsets = read_offset_list(handle, number_of_objects, offset_size)
 
     read_object_index(handle, offsets, object_ref_size, root_object)
   end
 
   defp read_trailer(handle) do
-    :file.position(handle, { :eof, -32 })
+    :file.position(handle, {:eof, -32})
     trailer = IO.binread(handle, :all)
 
     <<
-      0 :: size(48),
-      offset_size :: big-integer-size(8),
-      object_ref_size :: big-integer-size(8),
-      0 :: size(32),
-      number_of_objects :: big-integer-size(32),
-      0 :: size(32),
-      root_object :: big-integer-size(32),
-      0 :: size(32),
-      table_offset :: big-integer-size(32)
+      0::size(48),
+      offset_size::big-integer-size(8),
+      object_ref_size::big-integer-size(8),
+      0::size(32),
+      number_of_objects::big-integer-size(32),
+      0::size(32),
+      root_object::big-integer-size(32),
+      0::size(32),
+      table_offset::big-integer-size(32)
     >> = trailer
-    { offset_size, object_ref_size, number_of_objects, root_object, table_offset }
+
+    {offset_size, object_ref_size, number_of_objects, root_object, table_offset}
   end
 
   defp read_offset_list(handle, count, offset_size) do
     offset_table = IO.binread(handle, count * offset_size)
-    for <<offset :: big-integer-size(offset_size)-unit(8) <- offset_table>> do
+
+    for <<offset::big-integer-size(offset_size)-unit(8) <- offset_table>> do
       offset
     end
   end
@@ -47,12 +50,12 @@ defmodule Plist.Binary do
   end
 
   defp read_unicode_string(handle, length) do
-    IO.binread(handle, length*2)
+    IO.binread(handle, length * 2)
     |> :unicode.characters_to_binary(:utf16)
   end
 
   defp read_index_list(handle, offsets, object_ref_size, indexes) do
-    Enum.map(indexes, fn(index) ->
+    Enum.map(indexes, fn index ->
       read_object_index(handle, offsets, object_ref_size, index)
     end)
   end
@@ -71,17 +74,23 @@ defmodule Plist.Binary do
   end
 
   def format_date_time({{year, month, day}, {hour, minute, second}}) do
-    :io_lib.format("~4..0B-~2..0B-~2..0B ~2..0B:~2..0B:~2..0B +0000",
-    [year, month, day, hour, minute, second])
-      |> List.flatten
-      |> to_string
+    :io_lib.format("~4..0B-~2..0B-~2..0B ~2..0B:~2..0B:~2..0B +0000", [
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second
+    ])
+    |> List.flatten()
+    |> to_string
   end
 
   defp read_date(handle, length) do
     bytes = 1 <<< length
-    << seconds :: float-size(bytes)-unit(8) >> = IO.binread(handle, bytes)
+    <<seconds::float-size(bytes)-unit(8)>> = IO.binread(handle, bytes)
 
-    apple_epoch = :calendar.datetime_to_gregorian_seconds({{2001,1,1}, {0,0,0}})
+    apple_epoch = :calendar.datetime_to_gregorian_seconds({{2001, 1, 1}, {0, 0, 0}})
 
     :calendar.gregorian_seconds_to_datetime(round(apple_epoch + seconds))
     |> format_date_time
@@ -89,13 +98,13 @@ defmodule Plist.Binary do
 
   defp read_float(handle, length) do
     bytes = 1 <<< length
-    << value :: float-size(bytes)-unit(8) >> = IO.binread(handle, bytes)
+    <<value::float-size(bytes)-unit(8)>> = IO.binread(handle, bytes)
     value
   end
 
   defp read_integer(handle, length) do
     bytes = round(:math.pow(2, length))
-    << value :: big-integer-size(bytes)-unit(8) >> = IO.binread(handle, bytes)
+    <<value::big-integer-size(bytes)-unit(8)>> = IO.binread(handle, bytes)
     value
   end
 
@@ -108,22 +117,22 @@ defmodule Plist.Binary do
 
   defp read_singleton(_, length) do
     case length do
-      0  -> nil
-      8  -> false
-      9  -> true
+      0 -> nil
+      8 -> false
+      9 -> true
       15 -> "(fill?)"
       _ -> raise "unknown null type"
     end
   end
-  
+
   defp read_uid(handle, length) do
     %{"CF$UID" => read_integer(handle, length)}
   end
 
   defp read_object(handle, offsets, object_ref_size) do
     <<
-      type :: big-integer-size(4),
-      length :: big-integer-size(4)
+      type::big-integer-size(4),
+      length::big-integer-size(4)
     >> = IO.binread(handle, 1)
 
     length =
@@ -142,13 +151,13 @@ defmodule Plist.Binary do
       0x05 -> read_string(handle, length)
       0x06 -> read_unicode_string(handle, length)
       0x08 -> read_uid(handle, length)
-      0x0a -> read_array(handle, length, offsets, object_ref_size)
-      0x0d -> read_dictionary(handle, length, offsets, object_ref_size)
+      0x0A -> read_array(handle, length, offsets, object_ref_size)
+      0x0D -> read_dictionary(handle, length, offsets, object_ref_size)
     end
   end
 
   defp read_object_index(handle, offsets, object_ref_size, index) do
-    { :ok, _ } = :file.position(handle, Enum.at(offsets, index))
+    {:ok, _} = :file.position(handle, Enum.at(offsets, index))
     read_object(handle, offsets, object_ref_size)
   end
 end
