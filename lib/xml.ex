@@ -1,8 +1,8 @@
 defmodule Plist.XML do
   require Record
 
-  Record.defrecordp(:xmlElement, Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl"))
-  Record.defrecordp(:xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
+  Record.defrecordp(:element_node, :xmlElement, Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl"))
+  Record.defrecordp(:text_node, :xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
 
   def parse(xml) do
     {doc, _} =
@@ -12,15 +12,15 @@ defmodule Plist.XML do
 
     root =
       doc
-      |> xmlElement(:content)
+      |> element_node(:content)
       |> Enum.reject(&empty?/1)
       |> Enum.at(0)
 
     parse_value(root)
   end
 
-  defp parse_value(element) do
-    parse_value(xmlElement(element, :name), xmlElement(element, :content))
+  defp parse_value(element_node() = element) do
+    parse_value(element_node(element, :name), element_node(element, :content))
   end
 
   defp parse_value(:string, list) do
@@ -62,7 +62,7 @@ defmodule Plist.XML do
       contents
       |> Enum.reject(&empty?/1)
       |> Enum.split_with(fn element ->
-        xmlElement(element, :name) == :key
+        element_node(element, :name) == :key
       end)
 
     unless length(keys) == length(values), do: raise("Key/value pair mismatch")
@@ -71,9 +71,9 @@ defmodule Plist.XML do
       keys
       |> Enum.map(fn element ->
         element
-        |> xmlElement(:content)
+        |> element_node(:content)
         |> Enum.at(0)
-        |> xmlText(:value)
+        |> text_node(:value)
         |> :unicode.characters_to_binary()
       end)
 
@@ -86,7 +86,7 @@ defmodule Plist.XML do
   defp do_parse_text_nodes([], result), do: result
 
   defp do_parse_text_nodes([node | list], result) do
-    text = node |> xmlText(:value) |> :unicode.characters_to_binary()
+    text = node |> text_node(:value) |> :unicode.characters_to_binary()
     do_parse_text_nodes(list, result <> text)
   end
 
