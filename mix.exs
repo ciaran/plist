@@ -5,18 +5,11 @@ defmodule Plist.Mixfile do
     [app: :plist,
      version: "0.0.5",
      description: "An Elixir library to parse files in Apple's property list formats",
-     elixir: "~> 1.1",
+     elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      package: package(),
      deps: deps()]
-  end
-
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
-  def application do
-    [applications: [:logger]]
   end
 
   defp deps do

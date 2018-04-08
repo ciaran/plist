@@ -60,7 +60,7 @@ defmodule Plist.XML do
     {keys, values} =
       contents
       |> Enum.reject(&empty?/1)
-      |> Enum.partition(fn element ->
+      |> Enum.split_with(fn element ->
         xmlElement(element, :name) == :key
       end)
 
