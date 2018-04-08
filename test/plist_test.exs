@@ -10,6 +10,7 @@ defmodule PlistTest do
     assert Map.get(plist, "Array") == ["A", "B", "C"]
     assert Map.get(plist, "Date") == "2015-11-17 14:00:59 +0000"
     assert Map.get(plist, "True") == true
+    assert Map.get(plist, "SomeUID")["CF$UID"] == 40
   end
 
   test "basic parsing (xml)" do
@@ -25,6 +26,7 @@ defmodule PlistTest do
     assert Map.get(plist, "EntityEncoded") == "Foo & Bar"
     assert Map.get(plist, "UnicσdeKey") == "foobar"
     assert Map.get(plist, "UnicodeValue") == "© 2008 – 2016"
+    assert Map.get(plist, "SomeUID")["CF$UID"] == 40
   end
 
   defp parse_fixture(filename) do

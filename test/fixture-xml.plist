@@ -26,5 +26,10 @@
 	<string>foobar</string>
 	<key>UnicodeValue</key>
 	<string>© 2008 – 2016</string>
+	<key>SomeUID</key>
+	<dict>
+		<key>CF$UID</key>
+		<integer>40</integer>
+	</dict>
 </dict>
 </plist>
