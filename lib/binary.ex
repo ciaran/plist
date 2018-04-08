@@ -115,6 +115,10 @@ defmodule Plist.Binary do
       _ -> raise "unknown null type"
     end
   end
+  
+  defp read_uid(handle, length) do
+    %{"CF$UID" => read_integer(handle, length)}
+  end
 
   defp read_object(handle, offsets, object_ref_size) do
     <<
@@ -137,6 +141,7 @@ defmodule Plist.Binary do
       0x04 -> read_string(handle, length)
       0x05 -> read_string(handle, length)
       0x06 -> read_unicode_string(handle, length)
+      0x08 -> read_uid(handle, length)
       0x0a -> read_array(handle, length, offsets, object_ref_size)
       0x0d -> read_dictionary(handle, length, offsets, object_ref_size)
     end
