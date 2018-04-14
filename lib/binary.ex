@@ -73,7 +73,7 @@ defmodule Plist.Binary do
     |> Enum.into(%{})
   end
 
-  def format_date_time({{year, month, day}, {hour, minute, second}}) do
+  defp format_date_time({{year, month, day}, {hour, minute, second}}) do
     :io_lib.format("~4..0B-~2..0B-~2..0B ~2..0B:~2..0B:~2..0B +0000", [
       year,
       month,
