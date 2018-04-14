@@ -3,7 +3,7 @@ defmodule PlistTest do
   doctest Plist
 
   test "basic parsing (binary)" do
-    plist = parse_fixture("fixture-binary.plist")
+    plist = parse_fixture("binary.plist")
 
     assert Map.get(plist, "String") == "foobar"
     assert Map.get(plist, "Number") == 1234
@@ -14,7 +14,7 @@ defmodule PlistTest do
   end
 
   test "basic parsing (xml)" do
-    plist = parse_fixture("fixture-xml.plist")
+    plist = parse_fixture("xml.plist")
 
     assert Map.get(plist, "String") == "foobar"
     assert Map.get(plist, "Number") == 1234
@@ -30,7 +30,7 @@ defmodule PlistTest do
   end
 
   defp parse_fixture(filename) do
-    [File.cwd!(), "test", filename]
+    [File.cwd!(), "test", "fixtures", filename]
     |> Path.join()
     |> File.read!()
     |> Plist.parse()
