@@ -13,7 +13,14 @@ defmodule Plist.Mixfile do
   end
 
   defp deps do
-    []
+    [
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:dialyxir, "~> 0.5", only: :dev, runtime: false},
+    ]
+  end
+
+  def application do
+    [extra_applications: [:xmerl]]
   end
 
   defp package do

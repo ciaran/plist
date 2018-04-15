@@ -1,6 +1,8 @@
 defmodule Plist.XML do
   require Record
 
+  @moduledoc false
+
   Record.defrecordp(:element_node, :xmlElement, Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl"))
   Record.defrecordp(:text_node, :xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
 

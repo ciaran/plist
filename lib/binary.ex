@@ -2,6 +2,8 @@
 defmodule Plist.Binary do
   use Bitwise
 
+  @moduledoc false
+
   def parse(data) do
     File.open!(data, [:ram, :binary], &do_parse/1)
   end
