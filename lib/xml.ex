@@ -3,8 +3,17 @@ defmodule Plist.XML do
 
   @moduledoc false
 
-  Record.defrecordp(:element_node, :xmlElement, Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl"))
-  Record.defrecordp(:text_node, :xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
+  Record.defrecordp(
+    :element_node,
+    :xmlElement,
+    Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl")
+  )
+
+  Record.defrecordp(
+    :text_node,
+    :xmlText,
+    Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl")
+  )
 
   def decode(xml) do
     {doc, _} =
