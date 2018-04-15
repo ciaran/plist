@@ -4,7 +4,7 @@ defmodule Plist.Binary do
 
   @moduledoc false
 
-  def parse(data) do
+  def decode(data) do
     File.open!(data, [:ram, :binary], &do_parse/1)
   end
 

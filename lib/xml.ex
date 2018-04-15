@@ -6,7 +6,7 @@ defmodule Plist.XML do
   Record.defrecordp(:element_node, :xmlElement, Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl"))
   Record.defrecordp(:text_node, :xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
 
-  def parse(xml) do
+  def decode(xml) do
     {doc, _} =
       xml
       |> :binary.bin_to_list()

@@ -33,6 +33,6 @@ defmodule PlistTest do
     [File.cwd!(), "test", "fixtures", filename]
     |> Path.join()
     |> File.read!()
-    |> Plist.parse()
+    |> Plist.decode()
   end
 end

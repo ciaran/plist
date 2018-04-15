@@ -9,12 +9,19 @@ defmodule Plist do
   Parse the data provided as an XML or binary format plist,
   depending on the header.
   """
-  @spec parse(String.t) :: result
-  def parse(data) do
+  @spec decode(String.t) :: result
+  def decode(data) do
     case String.slice(data, 0, 8) do
-      "bplist00" -> Plist.Binary.parse(data)
-      "<?xml ve" -> Plist.XML.parse(data)
+      "bplist00" -> Plist.Binary.decode(data)
+      "<?xml ve" -> Plist.XML.decode(data)
       _ -> raise "Unknown plist format"
     end
+  end
+
+  @doc false
+  @deprecated "Use decode/1 instead"
+  @since "0.0.6"
+  def parse(data) do
+    decode(data)
   end
 end

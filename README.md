@@ -12,4 +12,4 @@ Add plist to your list of dependencies in `mix.exs`:
 
 ## Usage
 
-    plist = File.read!(path) |> Plist.parse
+    plist = File.read!(path) |> Plist.decode()
