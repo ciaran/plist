@@ -4,7 +4,7 @@ defmodule Plist.Mixfile do
   def project do
     [
       app: :plist,
-      version: "0.0.6",
+      version: "0.0.7",
       description: "An Elixir library to parse files in Apple's property list formats",
       elixir: "~> 1.4",
       build_embedded: Mix.env() == :prod,
