@@ -51,7 +51,7 @@ defmodule Plist.XML do
   end
 
   defp parse_value(true, []), do: true
-  defp parse_value(false, []), do: true
+  defp parse_value(false, []), do: false
 
   defp parse_value(:integer, nodes) do
     parse_value(:string, nodes) |> String.to_integer()

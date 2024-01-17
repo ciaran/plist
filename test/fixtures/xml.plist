@@ -18,6 +18,8 @@
 	<string>foobar</string>
 	<key>True</key>
 	<true/>
+	<key>False</key>
+	<false/>
 	<key>Base64</key>
 	<data>AAECAwQFBgcICQo=</data>
 	<key>EntityEncoded</key>
