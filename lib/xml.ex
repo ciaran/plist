@@ -78,20 +78,23 @@ defmodule Plist.XML do
 
     unless length(keys) == length(values), do: raise("Key/value pair mismatch")
 
-    keys =
-      keys
-      |> Enum.map(fn element ->
-        element
-        |> element_node(:content)
-        |> Enum.at(0)
-        |> text_node(:value)
-        |> :unicode.characters_to_binary()
-      end)
-
-    Enum.zip(keys, values)
+    keys
+    |> Enum.map(&element_text_value/1)
+    |> Enum.zip(values)
     |> Enum.into(%{}, fn {key, element} ->
       {key, parse_value(element)}
     end)
+  end
+
+  defp element_text_value(element) do
+    case element_node(element, :content) do
+      [content_node] ->
+        content_node
+        |> text_node(:value)
+        |> :unicode.characters_to_binary()
+
+      [] -> ""
+    end
   end
 
   defp do_parse_text_nodes([], result), do: result
