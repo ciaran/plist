@@ -1,6 +1,6 @@
 # http://fileformats.archiveteam.org/wiki/Property_List/Binary
 defmodule Plist.Binary do
-  use Bitwise
+  import Bitwise
 
   @moduledoc false
 
@@ -22,7 +22,7 @@ defmodule Plist.Binary do
 
   defp read_trailer(handle) do
     :file.position(handle, {:eof, -32})
-    trailer = IO.binread(handle, :all)
+    trailer = IO.binread(handle, :eof)
 
     <<
       0::size(48),
