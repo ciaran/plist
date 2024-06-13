@@ -93,7 +93,8 @@ defmodule Plist.XML do
         |> text_node(:value)
         |> :unicode.characters_to_binary()
 
-      [] -> ""
+      [] ->
+        ""
     end
   end
 
@@ -104,6 +105,6 @@ defmodule Plist.XML do
     do_parse_text_nodes(list, result <> text)
   end
 
-  defp empty?({:xmlText, _, _, [], ' ', :text}), do: true
+  defp empty?({:xmlText, _, _, [], ~c" ", :text}), do: true
   defp empty?(_), do: false
 end

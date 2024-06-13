@@ -20,7 +20,7 @@ defmodule Plist do
 
   @doc false
   @deprecated "Use decode/1 instead"
-  @since "0.0.6"
+  @doc since: "0.0.6"
   def parse(data) do
     decode(data)
   end
