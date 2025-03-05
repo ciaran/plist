@@ -12,6 +12,7 @@ defmodule PlistTest do
     assert Map.get(plist, "True") == true
     assert Map.get(plist, "SomeUID")["CF$UID"] == 40
     assert Map.get(plist, "") == ""
+    assert Map.get(plist, "DoubleSpaced") == "foo  bar"
   end
 
   test "basic parsing (xml)" do
