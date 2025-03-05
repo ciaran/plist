@@ -30,6 +30,7 @@ defmodule PlistTest do
     assert Map.get(plist, "UnicodeValue") == "© 2008 – 2016"
     assert Map.get(plist, "SomeUID")["CF$UID"] == 40
     assert Map.get(plist, "") == ""
+    assert Map.get(plist, "DoubleSpaced") == "foo  bar"
   end
 
   defp parse_fixture(filename) do
