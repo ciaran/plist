@@ -101,7 +101,8 @@ defmodule Plist.XML do
         |> text_node(:value)
         |> :unicode.characters_to_binary()
 
-      [] -> ""
+      [] ->
+        ""
     end
   end
 
