@@ -35,5 +35,7 @@
 	</dict>
   <key></key>
   <string></string>
+  <key>DoubleSpaced</key>
+  <string>foo  bar</string>
 </dict>
 </plist>

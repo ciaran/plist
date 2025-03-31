@@ -19,7 +19,7 @@ defmodule Plist.XML do
     {doc, _} =
       xml
       |> :binary.bin_to_list()
-      |> :xmerl_scan.string([{:comments, false}, {:space, :normalize}])
+      |> :xmerl_scan.string([{:comments, false}])
 
     root =
       doc
@@ -28,6 +28,14 @@ defmodule Plist.XML do
       |> Enum.at(0)
 
     parse_value(root)
+  end
+
+  defp parse_value(text_node() = node) do
+    if empty?(node) do
+      ""
+    else
+      node |> text_node(:value) |> :unicode.characters_to_binary()
+    end
   end
 
   defp parse_value(element_node() = element) do
@@ -105,6 +113,8 @@ defmodule Plist.XML do
     do_parse_text_nodes(list, result <> text)
   end
 
-  defp empty?({:xmlText, _, _, [], ~c" ", :text}), do: true
+  defp empty?({:xmlText, _, _, [], value, :text}) when is_list(value) do
+    value |> :unicode.characters_to_binary() |> String.trim() == ""
+  end
   defp empty?(_), do: false
 end
